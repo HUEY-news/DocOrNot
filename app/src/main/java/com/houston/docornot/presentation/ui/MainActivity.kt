@@ -1,6 +1,7 @@
 package com.houston.docornot.presentation.ui
 
 import android.os.Bundle
+import android.service.credentials.Action
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -11,6 +12,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.Button
@@ -31,6 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -93,7 +97,8 @@ fun LoginScreen() {
                         imageVector = Icons.Outlined.Person,
                         contentDescription = "Portal Icon"
                     )
-                }
+                },
+                singleLine = true
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -112,7 +117,8 @@ fun LoginScreen() {
                         imageVector = Icons.Outlined.Person,
                         contentDescription = "Portal Icon"
                     )
-                }
+                },
+                singleLine = true
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -132,7 +138,8 @@ fun LoginScreen() {
                         imageVector = Icons.Outlined.Person,
                         contentDescription = "Portal Icon"
                     )
-                }
+                },
+                singleLine = true
             )
 
             Spacer(modifier = Modifier.height(32.dp))
