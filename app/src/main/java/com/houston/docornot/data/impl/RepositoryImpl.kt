@@ -20,10 +20,8 @@ class RepositoryImpl @Inject constructor(
     private var errorMessage = ""
 
     override suspend fun login(portal: String, email: String, password: String) {
-
         val request = LoginRequest(host = portal, userName = email, password = password)
         val response = client.login(request)
-
         when (response.statusCode) {
             SUCCESS_STATUS_CODE -> token = (response as LoginResponse).token
             UNAUTHORIZED_STATUS_CODE -> errorMessage = ERROR_UNAUTHORIZED_TEXT

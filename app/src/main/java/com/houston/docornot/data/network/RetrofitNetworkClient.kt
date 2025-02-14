@@ -25,12 +25,9 @@ class RetrofitNetworkClient @Inject constructor(
 
         return withContext(Dispatchers.IO) {
             try {
-                Log.i("TEST", "Отправка запроса: $dto")
                 val response = service.login(dto.host, dto)
-                Log.i("TEST", "Ответ от сервера: ${response}")
                 response.apply { statusCode = SUCCESS_STATUS_CODE }
             } catch (exception: Throwable) {
-                Log.e("TEST", "Ошибка при запросе: ${exception.message}", exception)
                 Response().apply { statusCode = UNAUTHORIZED_STATUS_CODE }
             }
         }
