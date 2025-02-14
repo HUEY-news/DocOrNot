@@ -6,6 +6,10 @@ import android.net.NetworkCapabilities
 import android.util.Log
 import com.houston.docornot.data.dto.LoginRequest
 import com.houston.docornot.data.dto.Response
+import com.houston.docornot.util.Constants.FORBIDDEN_STATUS_CODE
+import com.houston.docornot.util.Constants.NO_INTERNET_STATUS_CODE
+import com.houston.docornot.util.Constants.SUCCESS_STATUS_CODE
+import com.houston.docornot.util.Constants.UNAUTHORIZED_STATUS_CODE
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -16,18 +20,18 @@ class RetrofitNetworkClient @Inject constructor(
 ) : NetworkClient {
 
     override suspend fun login(dto: Any): Response {
-        if (!isConnected()) return Response().apply { statusCode = -1 }
-        if (dto !is LoginRequest) return Response().apply { statusCode = 403 }
+        if (!isConnected()) return Response().apply { statusCode = NO_INTERNET_STATUS_CODE }
+        if (dto !is LoginRequest) return Response().apply { statusCode = FORBIDDEN_STATUS_CODE }
 
         return withContext(Dispatchers.IO) {
             try {
                 Log.i("TEST", "Отправка запроса: $dto")
                 val response = service.login(dto.host, dto)
                 Log.i("TEST", "Ответ от сервера: ${response}")
-                response.apply { statusCode = 200 }
+                response.apply { statusCode = SUCCESS_STATUS_CODE }
             } catch (exception: Throwable) {
                 Log.e("TEST", "Ошибка при запросе: ${exception.message}", exception)
-                Response().apply { statusCode = 401 }
+                Response().apply { statusCode = UNAUTHORIZED_STATUS_CODE }
             }
         }
     }
