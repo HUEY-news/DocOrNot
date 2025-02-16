@@ -3,7 +3,6 @@ package com.houston.docornot.data.network
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import android.util.Log
 import com.houston.docornot.data.dto.LoginRequest
 import com.houston.docornot.data.dto.Response
 import com.houston.docornot.util.Constants.FORBIDDEN_STATUS_CODE
