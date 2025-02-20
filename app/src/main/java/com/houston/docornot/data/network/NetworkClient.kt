@@ -1,7 +1,8 @@
 package com.houston.docornot.data.network
 
-import com.houston.docornot.data.dto.Response
+import com.houston.docornot.data.model.LoginRequest
+import com.houston.docornot.data.model.Response
 
 interface NetworkClient {
-    suspend fun login(dto: Any): Response
+    suspend fun login(host: String, request: LoginRequest): Response
 }

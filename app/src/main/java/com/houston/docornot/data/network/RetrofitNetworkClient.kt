@@ -3,12 +3,11 @@ package com.houston.docornot.data.network
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import com.houston.docornot.data.dto.LoginRequest
-import com.houston.docornot.data.dto.Response
-import com.houston.docornot.util.Constants.FORBIDDEN_STATUS_CODE
+import android.util.Log
+import com.houston.docornot.data.model.LoginRequest
+import com.houston.docornot.data.model.LoginResponse
+import com.houston.docornot.data.model.Response
 import com.houston.docornot.util.Constants.NO_INTERNET_STATUS_CODE
-import com.houston.docornot.util.Constants.SUCCESS_STATUS_CODE
-import com.houston.docornot.util.Constants.UNAUTHORIZED_STATUS_CODE
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -18,16 +17,24 @@ class RetrofitNetworkClient @Inject constructor(
     private val service: ApiService
 ) : NetworkClient {
 
-    override suspend fun login(dto: Any): Response {
-        if (!isConnected()) return Response().apply { statusCode = NO_INTERNET_STATUS_CODE }
-        if (dto !is LoginRequest) return Response().apply { statusCode = FORBIDDEN_STATUS_CODE }
+    override suspend fun login(host: String, request: LoginRequest): Response {
+        if (!isConnected()) {
+            val response = Response().apply { statusCode = NO_INTERNET_STATUS_CODE }
+            Log.w("TEST", "КОД ОТВЕТА: ${ response.statusCode }")
+            return response
+        }
 
         return withContext(Dispatchers.IO) {
             try {
-                val response = service.login(dto.host, dto)
-                response.apply { statusCode = SUCCESS_STATUS_CODE }
+                val response = service.login(host, request)
+                Log.w("TEST", "КОД ОТВЕТА: ${ response.statusCode }")
+                Log.w("TEST", "ТОКЕН: ${ (response as LoginResponse).response.token }")
+                response
             } catch (exception: Throwable) {
-                Response().apply { statusCode = UNAUTHORIZED_STATUS_CODE }
+                val response = Response()
+                Log.w("TEST", "КОД ОТВЕТА: ${ response.statusCode }")
+                Log.w("TEST", "НЕИЗВЕСТНАЯ ОШИБКА: ${exception.message}", exception)
+                response
             }
         }
     }

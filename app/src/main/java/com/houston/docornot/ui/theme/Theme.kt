@@ -1,4 +1,4 @@
-package com.houston.docornot.presentation.ui.theme
+package com.houston.docornot.ui.theme
 
 import android.app.Activity
 import android.os.Build

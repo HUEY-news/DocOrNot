@@ -1,14 +1,18 @@
 package com.houston.docornot.di
 
 import android.content.Context
+import com.houston.docornot.data.impl.RepositoryImpl
 import com.houston.docornot.data.network.ApiService
 import com.houston.docornot.data.network.NetworkClient
 import com.houston.docornot.data.network.RetrofitNetworkClient
+import com.houston.docornot.domain.api.Repository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -34,6 +38,16 @@ class DataModule {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(ApiService::class.java)
+    }
+
+    @Provides
+    fun provideRepository(client: NetworkClient): Repository {
+        return RepositoryImpl(client = client)
+    }
+
+    @Provides
+    fun provideCoroutineDispatcher(): CoroutineDispatcher {
+        return Dispatchers.IO
     }
 
 }

@@ -1,4 +1,4 @@
-package com.houston.docornot.presentation.ui.screens
+package com.houston.docornot.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -26,9 +26,13 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.houston.docornot.domain.model.Action
+import com.houston.docornot.presentation.LoginViewModel
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(viewModel: LoginViewModel = hiltViewModel()) {
+
     ConstraintLayout(modifier = Modifier.fillMaxSize()) {
         val header = createRef()
         val body = createRef()
@@ -123,7 +127,7 @@ fun LoginScreen() {
             Spacer(modifier = Modifier.height(32.dp))
 
             Button(
-                onClick = {/* TODO: Реализовать авторизацию! */ },
+                onClick = { viewModel.dispatch(Action.Login(portal, email, password)) },
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text("Login")

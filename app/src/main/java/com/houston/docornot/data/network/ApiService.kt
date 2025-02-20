@@ -1,7 +1,7 @@
 package com.houston.docornot.data.network
 
-import com.houston.docornot.data.dto.LoginRequest
-import com.houston.docornot.data.dto.Response
+import com.houston.docornot.data.model.LoginRequest
+import com.houston.docornot.data.model.Response
 import retrofit2.http.Body
 import retrofit2.http.Header
 import retrofit2.http.Headers

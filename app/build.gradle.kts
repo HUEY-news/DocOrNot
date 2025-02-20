@@ -69,6 +69,7 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
 
     // Dagger Hilt
+    implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
 

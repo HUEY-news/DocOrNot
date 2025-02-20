@@ -1,11 +1,10 @@
-package com.houston.docornot.presentation.ui
+package com.houston.docornot.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.houston.docornot.presentation.ui.screens.LoginScreen
-import com.houston.docornot.presentation.ui.theme.DocOrNotTheme
+import com.houston.docornot.ui.theme.DocOrNotTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
