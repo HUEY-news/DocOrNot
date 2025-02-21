@@ -16,22 +16,24 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.houston.docornot.domain.model.Action
+import com.houston.docornot.domain.model.State
 import com.houston.docornot.presentation.LoginViewModel
 
 @Composable
 fun LoginScreen(viewModel: LoginViewModel = hiltViewModel()) {
+    val state by viewModel.state.collectAsState()
 
     ConstraintLayout(modifier = Modifier.fillMaxSize()) {
         val header = createRef()
@@ -110,7 +112,6 @@ fun LoginScreen(viewModel: LoginViewModel = hiltViewModel()) {
                 onValueChange = { password = it },
                 label = { Text("Password") },
                 modifier = Modifier.fillMaxWidth(),
-                visualTransformation = PasswordVisualTransformation(),
                 colors = TextFieldDefaults.colors(
                     unfocusedIndicatorColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent
@@ -131,6 +132,23 @@ fun LoginScreen(viewModel: LoginViewModel = hiltViewModel()) {
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text("Login")
+            }
+
+            when (state) {
+                is State.Loading -> {
+                    // Показать индикатор загрузки
+                }
+                is State.Success -> {
+                    // Перейти на другой экран, передав токен
+                    val token = (state as State.Success).token
+                    // ...
+                }
+                is State.Error -> {
+                    // Показать сообщение об ошибке
+                    val errorMessage = (state as State.Error).message
+                    // ...
+                }
+                else -> {}
             }
         }
     }

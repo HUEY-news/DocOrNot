@@ -1,8 +1,8 @@
 package com.houston.docornot.domain.model
 
-data class State(
-    val isLoading: Boolean = false,
-    val isSuccess: Boolean = false,
-    val isError: Boolean = false,
-    val errorMessage: String? = null
-)
+sealed class State {
+    object Idle : State()
+    object Loading : State()
+    data class Success(val token: String) : State()
+    data class Error(val message: String) : State()
+}
