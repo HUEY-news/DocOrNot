@@ -2,7 +2,6 @@ package com.houston.docornot.data.impl
 
 import android.util.Log
 import com.houston.docornot.data.model.LoginRequest
-import com.houston.docornot.data.model.LoginResponse
 import com.houston.docornot.data.network.NetworkClient
 import com.houston.docornot.domain.api.Repository
 import com.houston.docornot.util.Constants.BAD_REQUEST_STATUS_CODE
@@ -29,20 +28,40 @@ class RepositoryImpl @Inject constructor(
     override suspend fun login(portal: String, email: String, password: String): Flow<Resource<String>> = flow {
         val request = LoginRequest(userName = email, password = password)
         val response = client.login(host = portal, request = request)
+        Log.i("TEST", "REPOSITORY RESPONSE: $response")
 
         when (response.statusCode) {
 
             SUCCESS_STATUS_CODE -> {
-                token = (response as LoginResponse).response.token
+                token = response.response?.token!!
                 if (token.isNotEmpty()) emit(Resource.Success(token))
                 else emit(Resource.Error(ERROR_LOGIN_TEXT))
             }
 
-            BAD_REQUEST_STATUS_CODE -> emit(Resource.Error(ERROR_BAD_REQUEST_TEXT))
-            UNAUTHORIZED_STATUS_CODE -> emit(Resource.Error(ERROR_UNAUTHORIZED_TEXT))
-            FORBIDDEN_STATUS_CODE -> emit(Resource.Error(ERROR_FORBIDDEN_TEXT))
-            NO_INTERNET_STATUS_CODE -> emit(Resource.Error(ERROR_NO_INTERNET_TEXT))
-            else -> Log.w("TEST", "НЕИЗВЕСТНАЯ ОШИБКА")
+            BAD_REQUEST_STATUS_CODE -> {
+                Log.e("TEST", "REPOSITORY ERROR: $ERROR_BAD_REQUEST_TEXT")
+                emit(Resource.Error(ERROR_BAD_REQUEST_TEXT))
+            }
+
+            UNAUTHORIZED_STATUS_CODE -> {
+                Log.e("TEST", "REPOSITORY ERROR: $ERROR_UNAUTHORIZED_TEXT")
+                emit(Resource.Error(ERROR_UNAUTHORIZED_TEXT))
+            }
+
+            FORBIDDEN_STATUS_CODE -> {
+                Log.e("TEST", "REPOSITORY ERROR: $ERROR_FORBIDDEN_TEXT")
+                emit(Resource.Error(ERROR_FORBIDDEN_TEXT))
+            }
+
+            NO_INTERNET_STATUS_CODE -> {
+                Log.e("TEST", "REPOSITORY ERROR: $ERROR_NO_INTERNET_TEXT")
+                emit(Resource.Error(ERROR_NO_INTERNET_TEXT))
+            }
+
+            else -> {
+                Log.e("TEST", "REPOSITORY ERROR: НЕИЗВЕСТНАЯ ОШИБКА")
+                emit(Resource.Error(ERROR_LOGIN_TEXT))
+            }
         }
     }
 }

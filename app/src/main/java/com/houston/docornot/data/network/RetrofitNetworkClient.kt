@@ -6,7 +6,6 @@ import android.net.NetworkCapabilities
 import android.util.Log
 import com.houston.docornot.data.model.LoginRequest
 import com.houston.docornot.data.model.LoginResponse
-import com.houston.docornot.data.model.LoginResponseInner
 import com.houston.docornot.util.Constants.NO_INTERNET_STATUS_CODE
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -19,7 +18,7 @@ class RetrofitNetworkClient @Inject constructor(
 
     override suspend fun login(host: String, request: LoginRequest): LoginResponse {
         if (!isConnected()) {
-            val response = LoginResponse(LoginResponseInner("")).apply { statusCode = NO_INTERNET_STATUS_CODE }
+            val response = LoginResponse(null, null).apply { statusCode = NO_INTERNET_STATUS_CODE }
             Log.w("TEST", "КОД ОТВЕТА: ${ response.statusCode }")
             return response
         }
@@ -27,13 +26,12 @@ class RetrofitNetworkClient @Inject constructor(
         return withContext(Dispatchers.IO) {
             try {
                 val response = service.login(host, request)
-                Log.i("TEST", "КОД ОТВЕТА: ${ response.statusCode }")
-                Log.i("TEST", "ТОКЕН: ${ (response as LoginResponse).response.token }")
+                Log.i("TEST", "TRY NETWORK RESPONSE: $response")
                 response
             } catch (exception: Throwable) {
-                val response = LoginResponse(LoginResponseInner(""))
-                Log.e("TEST", "КОД ОТВЕТА: ${ response.statusCode }")
-                Log.e("TEST", "НЕИЗВЕСТНАЯ ОШИБКА: ${exception.message}", exception)
+                val response = LoginResponse(null, null)
+                Log.i("TEST", "CATCH NETWORK RESPONSE: $response")
+                Log.e("TEST", "NETWORK ERROR: НЕИЗВЕСТНАЯ ОШИБКА: ${exception.message}", exception)
                 response
             }
         }

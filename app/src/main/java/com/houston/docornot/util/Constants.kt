@@ -3,6 +3,7 @@ package com.houston.docornot.util
 object Constants {
 
     const val ERROR_LOGIN_TEXT = "Неудачная попытка авторизации"
+    const val SUCCESS_LOGIN_TEXT = "Авторизация прошла успешно"
     const val ERROR_BAD_REQUEST_TEXT = "Не верный запрос"
     const val ERROR_UNAUTHORIZED_TEXT = "Пользователь не авторизован"
     const val ERROR_FORBIDDEN_TEXT = "Недостаточно прав для выполнения запроса"
